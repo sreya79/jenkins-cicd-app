@@ -26,14 +26,14 @@ pipeline {
                 '''
             }
         }
-	
-	stage('Build Docker Image') {
-   	    steps {
+
+        stage('Build Docker Image') {
+            steps {
                 sh '''
-            	    docker build -t flask-cicd-app:${BUILD_NUMBER} .
+                    docker build -t flask-cicd-app:${BUILD_NUMBER} .
                     docker tag flask-cicd-app:${BUILD_NUMBER} flask-cicd-app:latest
                 '''
-   	    }
+            }
         }
 
     }
