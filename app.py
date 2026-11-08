@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     return jsonify({
-        "message": "Welcome to our Jenkins CI/CD demo!",
+        "message": "Welcome to our Jenkins CI/CD demo - Webhook Test!",
         "application": "Flask Web Application",
         "version": "1.0"
     })
