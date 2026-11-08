@@ -36,5 +36,27 @@ pipeline {
             }
         }
 
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub-credentials',
+                    usernameVariable: 'DOCKERHUB_USERNAME',
+                    passwordVariable: 'DOCKERHUB_TOKEN'
+                )]) {
+                    sh '''
+                        echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+
+                        docker tag flask-cicd-app:${BUILD_NUMBER} ${DOCKERHUB_USERNAME}/flask-cicd-app:${BUILD_NUMBER}
+                        docker tag flask-cicd-app:latest ${DOCKERHUB_USERNAME}/flask-cicd-app:latest
+
+                        docker push ${DOCKERHUB_USERNAME}/flask-cicd-app:${BUILD_NUMBER}
+                        docker push ${DOCKERHUB_USERNAME}/flask-cicd-app:latest
+
+                        docker logout
+                    '''
+                }
+            }
+        }
+
     }
 }
