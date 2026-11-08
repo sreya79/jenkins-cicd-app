@@ -58,5 +58,20 @@ pipeline {
             }
         }
 
+        stage('Deploy Application') {
+            steps {
+                sh '''
+                    docker pull sreya79/flask-cicd-app:latest
+
+                    docker rm -f flask-cicd-app || true
+
+                    docker run -d \
+                        --name flask-cicd-app \
+                        -p 5000:5000 \
+                        sreya79/flask-cicd-app:latest
+                '''
+            }
+        }
+
     }
 }
